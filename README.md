@@ -9,3 +9,6 @@ How to Use?
   Quick click on the item you wanna edit, a dialog will pop up. 
   Modify the item name in the textbox and click "Edit" button, the name will get updated.
   
+Demo On YouTube
+https://youtu.be/NLcB28so_9c
+  
