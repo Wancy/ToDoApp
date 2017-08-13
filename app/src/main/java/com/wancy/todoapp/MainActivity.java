@@ -3,6 +3,8 @@ package com.wancy.todoapp;
 import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.Selection;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    // Get data from file and convert into adapter to initate the UI
+    // Get data from file and convert into adapter to init the UI
     public void populateArrayItems() {
         readItems();
         aToDoAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, todoItems);
@@ -66,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.edit_dialog);
         final EditText txtEdit = (EditText) dialog.findViewById(R.id.txtEdit);
         txtEdit.setText(todoItems.get(index));
+        // Set cursor to the end of the text
+        int position = txtEdit.length();
+        Editable text = txtEdit.getText();
+        Selection.setSelection(text, position);
         Button btnEdit = (Button) dialog.findViewById(R.id.btnEdit);
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
