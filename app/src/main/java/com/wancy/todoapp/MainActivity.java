@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         lvItems = (ListView) findViewById(R.id.lvItems);
         lvItems.setAdapter(aToDoAdapter);
         etEditText = (EditText) findViewById(R.id.etEditText);
+        // Add LongClickListener for removing action.
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        // Add quick click listener for editing action.
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    // Get data from file and convert into adapter to initate the UI
     public void populateArrayItems() {
         readItems();
         aToDoAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, todoItems);
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         etEditText.setText("");
         writeItems();
     }
-
+    // A method for the editing function
     public void showEditDialog(final int index) {
         final Dialog dialog = new Dialog(MainActivity.this);
         dialog.setTitle("Edit Item");
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         File filesDir = getFilesDir();
         File file = new File(filesDir, "todo.txt");
         try {
+            // If file doesnt exist on disk, creat it first
             if (!file.exists()) {
                 file.createNewFile();
             }
