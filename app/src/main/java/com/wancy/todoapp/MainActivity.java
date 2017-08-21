@@ -17,28 +17,30 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    ArrayList<String> todoItems;
-    ArrayAdapter<String> aToDoAdapter;
+    ArrayList<Item> todoItems;
+    ItemAdapter itemAdapter;
     ListView lvItems;
     EditText etEditText;
+    ItemDAO itemDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        itemDAO = new ItemDAO();
         populateArrayItems();
-        lvItems = (ListView) findViewById(R.id.lvItems);
-        lvItems.setAdapter(aToDoAdapter);
         etEditText = (EditText) findViewById(R.id.etEditText);
         // Add LongClickListener for removing action.
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Item item = todoItems.get(i);
                 todoItems.remove(i);
-                aToDoAdapter.notifyDataSetChanged();
-                writeItems();
+                itemDAO.deleteItem(item);
+                itemAdapter.notifyDataSetChanged();
                 return true;
             }
         });
@@ -52,14 +54,19 @@ public class MainActivity extends AppCompatActivity {
     }
     // Get data from file and convert into adapter to init the UI
     public void populateArrayItems() {
-        readItems();
-        aToDoAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, todoItems);
+        todoItems = itemDAO.getItems();
+        itemAdapter = new ItemAdapter(this, todoItems);
+        lvItems = (ListView) findViewById(R.id.lvItems);
+        lvItems.setAdapter(itemAdapter);
     }
 
     public void onAddItem(View view) {
-        aToDoAdapter.add(etEditText.getText().toString());
+        String content = etEditText.getText().toString();
+        Item item = new Item();
+        item.setContent(content);
+        itemAdapter.add(item);
+        itemDAO.addOrUpdateItem(item);
         etEditText.setText("");
-        writeItems();
     }
     // A method for the editing function
     public void showEditDialog(final int index) {
@@ -67,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.setTitle("Edit Item");
         dialog.setContentView(R.layout.edit_dialog);
         final EditText txtEdit = (EditText) dialog.findViewById(R.id.txtEdit);
-        txtEdit.setText(todoItems.get(index));
+        txtEdit.setText(todoItems.get(index).getContent());
         // Set cursor to the end of the text
         int position = txtEdit.length();
         Editable text = txtEdit.getText();
@@ -76,36 +83,15 @@ public class MainActivity extends AppCompatActivity {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                todoItems.set(index, txtEdit.getText().toString());
-                aToDoAdapter.notifyDataSetChanged();
-                writeItems();
+                Item item = todoItems.get(index);
+                item.setContent(txtEdit.getText().toString());
+                todoItems.set(index, item);
+                itemDAO.addOrUpdateItem(item);
+                itemAdapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
         });
         dialog.show();
     }
 
-    private void readItems() {
-        File filesDir = getFilesDir();
-        File file = new File(filesDir, "todo.txt");
-        try {
-            // If file doesnt exist on disk, creat it first
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            todoItems = new ArrayList<String>(FileUtils.readLines(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void writeItems() {
-        File filesDir = getFilesDir();
-        File file = new File(filesDir, "todo.txt");
-        try {
-            FileUtils.writeLines(file, todoItems);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
