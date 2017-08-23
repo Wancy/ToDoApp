@@ -1,6 +1,7 @@
 package com.wancy.todoapp;
 
 import android.app.Dialog;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,7 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EditDialogFragment.EditDialogListener {
     ArrayList<Item> todoItems;
     ItemAdapter itemAdapter;
     ListView lvItems;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onAddItem(View view) {
         String content = etEditText.getText().toString();
+        if (content == null || content.length() == 0) return;
         Item item = new Item();
         item.setContent(content);
         itemAdapter.add(item);
@@ -70,28 +72,15 @@ public class MainActivity extends AppCompatActivity {
     }
     // A method for the editing function
     public void showEditDialog(final int index) {
-        final Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setTitle("Edit Item");
-        dialog.setContentView(R.layout.edit_dialog);
-        final EditText txtEdit = (EditText) dialog.findViewById(R.id.txtEdit);
-        txtEdit.setText(todoItems.get(index).getContent());
-        // Set cursor to the end of the text
-        int position = txtEdit.length();
-        Editable text = txtEdit.getText();
-        Selection.setSelection(text, position);
-        Button btnEdit = (Button) dialog.findViewById(R.id.btnEdit);
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Item item = todoItems.get(index);
-                item.setContent(txtEdit.getText().toString());
-                todoItems.set(index, item);
-                itemDAO.addOrUpdateItem(item);
-                itemAdapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+        FragmentManager fm = getSupportFragmentManager();
+        EditDialogFragment editDialogFragment =
+                EditDialogFragment.newInstance(todoItems.get(index));
+        editDialogFragment.show(fm, "edit_dialog");
     }
 
+    @Override
+    public void onFinishEditDialog(Item item) {
+        itemDAO.addOrUpdateItem(item);
+        itemAdapter.notifyDataSetChanged();
+    }
 }
