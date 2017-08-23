@@ -1,14 +1,15 @@
-package com.wancy.todoapp;
+package com.wancy.todoapp.utils;
 
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
+import com.wancy.todoapp.models.MyDatabase;
+import com.wancy.todoapp.models.Item;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class ItemDAO {
     private DatabaseDefinition database = FlowManager.getDatabase(MyDatabase.class);

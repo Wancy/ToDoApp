@@ -1,4 +1,4 @@
-package com.wancy.todoapp;
+package com.wancy.todoapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.wancy.todoapp.R;
+import com.wancy.todoapp.models.Item;
 
 import static com.wancy.todoapp.R.id.txtEdit;
 

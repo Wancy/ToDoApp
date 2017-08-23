@@ -24,7 +24,7 @@ The following **optional** features are implemented:
 *  Persist the todo items [into SQLite](http://guides.codepath.com/android/Persisting-Data-to-the-Device#sqlite) instead of a text file
 *  Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
 * [ ] Add support for completion due dates for todo items (and display within listview item)
-* [ ] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
+*  Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
 * [ ] Add support for selecting the priority of each todo item (and display in listview item)
 * [ ] Tweak the style improving the UI / UX, play with colors, images or backgrounds
 
@@ -55,7 +55,8 @@ As part of your pre-work submission, please reflect on the app and answer the fo
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+I have 0 experience with Android before, I start this app from scratch. It was difficult at the very beginning,
+but gradually adding new features become easier after finish the basic code structure, really learnt a lot!
 
 ## License
 

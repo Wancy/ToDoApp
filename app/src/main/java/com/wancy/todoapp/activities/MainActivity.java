@@ -1,24 +1,20 @@
-package com.wancy.todoapp;
+package com.wancy.todoapp.activities;
 
-import android.app.Dialog;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.Selection;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import org.apache.commons.io.FileUtils;
+import com.wancy.todoapp.models.Item;
+import com.wancy.todoapp.R;
+import com.wancy.todoapp.adapters.ItemAdapter;
+import com.wancy.todoapp.fragments.EditDialogFragment;
+import com.wancy.todoapp.utils.ItemDAO;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements EditDialogFragment.EditDialogListener {
     ArrayList<Item> todoItems;

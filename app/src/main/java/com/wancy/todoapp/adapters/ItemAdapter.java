@@ -1,4 +1,4 @@
-package com.wancy.todoapp;
+package com.wancy.todoapp.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.wancy.todoapp.R;
+import com.wancy.todoapp.models.Item;
 
 import java.util.ArrayList;
 

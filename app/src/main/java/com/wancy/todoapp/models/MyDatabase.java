@@ -1,4 +1,4 @@
-package com.wancy.todoapp;
+package com.wancy.todoapp.models;
 
 import com.raizlabs.android.dbflow.annotation.Database;
 
